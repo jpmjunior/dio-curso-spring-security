@@ -1,4 +1,4 @@
-package br.edu.dio.curso.spring.security;
+package br.edu.dio.curso.spring.security.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
