@@ -2,6 +2,7 @@ package br.edu.dio.curso.spring.security.init;
 
 import br.edu.dio.curso.spring.security.model.User;
 import br.edu.dio.curso.spring.security.repository.UserRepository;
+import br.edu.dio.curso.spring.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -10,8 +11,12 @@ import javax.transaction.Transactional;
 
 @Component
 public class StartApplication implements CommandLineRunner {
+
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private UserService service;
+
     @Transactional
     @Override
     public void run(String... args) throws Exception {
@@ -22,7 +27,7 @@ public class StartApplication implements CommandLineRunner {
             user.setUsername("admin");
             user.setPassword("master123");
             user.getRoles().add("MANAGERS");
-            repository.save(user);
+            service.createUser(user);
         }
         user = repository.findByUsername("user");
         if(user ==null){
@@ -31,7 +36,8 @@ public class StartApplication implements CommandLineRunner {
             user.setUsername("user");
             user.setPassword("user123");
             user.getRoles().add("USERS");
-            repository.save(user);
+            service.createUser(user);
         }
     }
+
 }
