@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class JWTCreator {
+
     public static final String HEADER_AUTHORIZATION = "Authorization";
     public static final String ROLES_AUTHORITIES = "authorities";
 
@@ -20,6 +21,7 @@ public class JWTCreator {
                 .claim(ROLES_AUTHORITIES, checkRoles(jwtObject.getRoles())).signWith(SignatureAlgorithm.HS512, key).compact();
         return prefix + " " + token;
     }
+
     public static JWTObject create(String token,String prefix,String key)
             throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException {
         JWTObject object = new JWTObject();
@@ -32,9 +34,9 @@ public class JWTCreator {
         return object;
 
     }
+
     private static List<String> checkRoles(List<String> roles) {
         return roles.stream().map(s -> "ROLE_".concat(s.replaceAll("ROLE_",""))).collect(Collectors.toList());
     }
-
 
 }

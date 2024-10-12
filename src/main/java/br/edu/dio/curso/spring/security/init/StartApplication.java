@@ -14,6 +14,7 @@ public class StartApplication implements CommandLineRunner {
 
     @Autowired
     private UserRepository repository;
+
     @Autowired
     private UserService service;
 
