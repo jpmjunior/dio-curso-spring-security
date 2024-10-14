@@ -24,13 +24,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private static final String[] SWAGGER_WHITELIST = {
-            "/v2/api-docs",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/webjars/**"
+            "/v3/api-docs",         // Documentação em json
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",    // Documentação em yaml
+            "/swagger-ui/**",
+            "/swagger-ui.html"     // Interface swagger
     };
 
     @Override
@@ -41,6 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(SWAGGER_WHITELIST).permitAll()
                 .antMatchers("/h2-console/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.POST,"/login").permitAll()
                 .antMatchers(HttpMethod.POST,"/users").permitAll()
                 .antMatchers(HttpMethod.GET,"/users").hasAnyRole("USERS","MANAGERS")

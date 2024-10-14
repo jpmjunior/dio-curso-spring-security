@@ -11,8 +11,8 @@
 	<groupId>br.edu</groupId>
 	<artifactId>dio-curso-spring-security</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>dio-curso-spring-security</name>
-	<description>Curso de Spring Security da DIO</description>
+	<name>API com Spring Security</name>
+	<description>API constru\u00edda no curso de Spring Security da DIO</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -58,6 +58,11 @@
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>2.4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.8.0</version>
 		</dependency>
 	</dependencies>
 	<build>
