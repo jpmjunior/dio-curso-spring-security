@@ -3,11 +3,11 @@ package br.edu.dio.curso.spring.security.init;
 import br.edu.dio.curso.spring.security.model.User;
 import br.edu.dio.curso.spring.security.repository.UserRepository;
 import br.edu.dio.curso.spring.security.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 
 @Component
 public class StartApplication implements CommandLineRunner {

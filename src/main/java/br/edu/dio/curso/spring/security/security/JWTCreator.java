@@ -1,15 +1,12 @@
 package br.edu.dio.curso.spring.security.security;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.lang.Strings;
+import io.jsonwebtoken.security.Keys;
 
+import javax.crypto.SecretKey;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class JWTCreator {
 
@@ -17,26 +14,39 @@ public class JWTCreator {
     public static final String ROLES_AUTHORITIES = "authorities";
 
     public static String create(String prefix,String key, JWTObject jwtObject) {
-        String token = Jwts.builder().setSubject(jwtObject.getSubject()).setIssuedAt(jwtObject.getIssuedAt()).setExpiration(jwtObject.getExpiration())
-                .claim(ROLES_AUTHORITIES, checkRoles(jwtObject.getRoles())).signWith(SignatureAlgorithm.HS512, key).compact();
+
+        SecretKey secretKey = Keys.hmacShaKeyFor(key.getBytes());
+        String token = Jwts.builder()
+                .subject(jwtObject.getSubject())
+                .claims()
+                        .issuedAt(jwtObject.getIssuedAt())
+                        .expiration(jwtObject.getExpiration())
+                        .add(ROLES_AUTHORITIES, checkRoles(jwtObject.getRoles()))
+                        .and()
+                .signWith(secretKey, Jwts.SIG.HS512)
+                .compact();
+
         return prefix + " " + token;
+
     }
 
-    public static JWTObject create(String token,String prefix,String key)
-            throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException {
-        JWTObject object = new JWTObject();
+    public static JWTObject create(String token,String prefix,String key) {
+
+        SecretKey secretKey = Keys.hmacShaKeyFor(key.getBytes());
         token = token.replace(prefix, "");
-        Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+        token = Strings.trimAllWhitespace(token);
+        Claims claims = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
+        JWTObject object = new JWTObject();
         object.setSubject(claims.getSubject());
         object.setExpiration(claims.getExpiration());
         object.setIssuedAt(claims.getIssuedAt());
-        object.setRoles((List) claims.get(ROLES_AUTHORITIES));
+        object.setRoles((List<String>) claims.get(ROLES_AUTHORITIES));
         return object;
 
     }
 
     private static List<String> checkRoles(List<String> roles) {
-        return roles.stream().map(s -> "ROLE_".concat(s.replaceAll("ROLE_",""))).collect(Collectors.toList());
+        return roles.stream().map(s -> "ROLE_" + s.replaceAll("ROLE_","")).toList();
     }
 
 }
