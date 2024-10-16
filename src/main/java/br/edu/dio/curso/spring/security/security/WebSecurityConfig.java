@@ -59,11 +59,4 @@ public class WebSecurityConfig {
                 .build();
     }
 
-//    @Bean //HABILITANDO ACESSAR O H2-DATABSE NA WEB
-//    public ServletRegistrationBean<HttpServlet> h2servletRegistration(){
-//        ServletRegistrationBean<HttpServlet> registrationBean = new ServletRegistrationBean( new WebServlet());
-//        registrationBean.addUrlMappings("/h2-console/*");
-//        return registrationBean;
-//    }
-
 }
