@@ -32,7 +32,7 @@ No curso foi utilizado o Spring Boot 2.5.5 com Java 8, portanto foram necessári
 Alguns pontos importantes:
 
 - Não é mais necessário extender a classe WebSecurityConfigurerAdapter na classe de configuração de segurança
-- O método configure foi renoado para securityFilterChain anotado com @Bean
+- O método configure foi renomeado para securityFilterChain e anotado com @Bean
 - A biblioteca jjwt precisou ser atualizada para a versão 0.12.6
 - A entidade User agora implementa a interface UserDetails
 - Foi criada a classe AutenticacaoService que implementa a interface UserDetailsService
